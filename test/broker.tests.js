@@ -66,6 +66,16 @@ describe('Broker', function() {
     mockAmqp = {
       connect: function(/* connectionString */) {
         return Promise.resolve(mockConnection);
+      },
+      credentials: {
+        plain: function(user, pass){
+          return {
+            mechanism: 'PLAIN',
+            response: function() {
+              return new Buffer(['', user, pass].join(String.fromCharCode(0)));
+            }
+          };
+        }
       }
     };
   }
