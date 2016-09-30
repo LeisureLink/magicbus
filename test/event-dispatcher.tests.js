@@ -107,7 +107,7 @@ describe('EventDispatcher', function() {
         expect(handlerSpy).to.have.been.calledWith(eventName);
       });
     });
-    it('should only call the first handler when multiple handlers match', function() {
+    it('should call all handlers when multiple handlers match', function() {
       var secondSpy = sinon.spy();
       eventDispatcher.on(eventName, handlerSpy);
       eventDispatcher.on(/my.*EventName/, secondSpy);
@@ -115,7 +115,7 @@ describe('EventDispatcher', function() {
       return eventDispatcher.dispatch(eventName).then(function(result) {
         expect(result).to.equal(true);
         expect(handlerSpy).to.have.been.calledWith(eventName);
-        expect(secondSpy).to.have.not.been.called;
+        expect(secondSpy).to.have.been.calledWith(eventName);
       });
     });
     it('should call handlers with arguments', function() {
